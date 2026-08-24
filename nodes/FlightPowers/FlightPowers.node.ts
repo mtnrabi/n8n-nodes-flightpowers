@@ -28,7 +28,7 @@ export class FlightPowers implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description:
-			'Search real-time flight fares and hotel prices through the RapidAPI Flight & Hotel Data APIs',
+			'Search live flight fares and hotel prices with the FlightPowers travel-data API',
 		defaults: {
 			name: 'FlightPowers',
 		},

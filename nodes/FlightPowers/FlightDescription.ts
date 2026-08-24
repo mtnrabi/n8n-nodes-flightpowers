@@ -75,7 +75,7 @@ export const flightFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'BER',
+		placeholder: 'e.g. BER',
 		description: 'Origin airport IATA code',
 		displayOptions: {
 			show: {
@@ -93,7 +93,7 @@ export const flightFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'CDG',
+		placeholder: 'e.g. CDG',
 		description: 'Destination airport IATA code',
 		displayOptions: {
 			show: {
@@ -111,7 +111,7 @@ export const flightFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: '2026-06-15',
+		placeholder: 'e.g. 2026-06-15',
 		description: 'Outbound date in YYYY-MM-DD format',
 		displayOptions: {
 			show: {
@@ -129,7 +129,7 @@ export const flightFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: '2026-06-19',
+		placeholder: 'e.g. 2026-06-19',
 		description: 'Return date in YYYY-MM-DD format',
 		displayOptions: {
 			show: {
@@ -163,7 +163,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'airline_codes',
 				type: 'string',
 				default: '',
-				placeholder: 'LH,BA',
+				placeholder: 'e.g. LH,BA',
 				description:
 					'Comma-separated airline codes to restrict the search to. Sent as the airline_codes array.',
 				routing: {
@@ -176,7 +176,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Latest acceptable arrival time. Maps to the departure_arrival_time_max parameter and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Latest acceptable arrival time. Maps to the departure_arrival_time_max parameter and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_arrival_time_max' },
 				},
@@ -187,7 +187,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Earliest acceptable arrival time. Maps to the departure_arrival_time_min parameter and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Earliest acceptable arrival time. Maps to the departure_arrival_time_min parameter and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_arrival_time_min' },
 				},
@@ -208,7 +208,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Latest acceptable departure time. Maps to the departure_time_max parameter and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Latest acceptable departure time. Maps to the departure_time_max parameter and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_time_max' },
 				},
@@ -219,7 +219,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Earliest acceptable departure time. Maps to the departure_time_min parameter and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Earliest acceptable departure time. Maps to the departure_time_min parameter and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_time_min' },
 				},
@@ -229,7 +229,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'exclude_airline_codes',
 				type: 'string',
 				default: '',
-				placeholder: 'FR,W6',
+				placeholder: 'e.g. FR,W6',
 				description:
 					'Comma-separated airline codes to exclude. Sent as the exclude_airline_codes array.',
 				routing: {
@@ -273,7 +273,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'passengers',
 				type: 'string',
 				default: '',
-				placeholder: '1,1,2',
+				placeholder: 'e.g. 1,1,2',
 				description: PASSENGERS_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'passengers', value: CSV_TO_NUMBER_ARRAY },
@@ -400,7 +400,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'departure_airline_codes',
 				type: 'string',
 				default: '',
-				placeholder: 'LH,BA',
+				placeholder: 'e.g. LH,BA',
 				description:
 					'Comma-separated airline codes for the outbound leg. Sent as the departure_airline_codes array.',
 				routing: {
@@ -413,7 +413,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Latest acceptable outbound arrival time. Maps to departure_arrival_time_max and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Latest acceptable outbound arrival time. Maps to departure_arrival_time_max and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_arrival_time_max' },
 				},
@@ -424,7 +424,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Earliest acceptable outbound arrival time. Maps to departure_arrival_time_min and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Earliest acceptable outbound arrival time. Maps to departure_arrival_time_min and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_arrival_time_min' },
 				},
@@ -435,7 +435,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Latest acceptable outbound departure time. Maps to departure_departure_time_max and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Latest acceptable outbound departure time. Maps to departure_departure_time_max and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_departure_time_max' },
 				},
@@ -446,7 +446,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Earliest acceptable outbound departure time. Maps to departure_departure_time_min and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Earliest acceptable outbound departure time. Maps to departure_departure_time_min and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'departure_departure_time_min' },
 				},
@@ -456,7 +456,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'departure_exclude_airline_codes',
 				type: 'string',
 				default: '',
-				placeholder: 'FR,W6',
+				placeholder: 'e.g. FR,W6',
 				description:
 					'Comma-separated airline codes to exclude on the outbound leg. Sent as the departure_exclude_airline_codes array.',
 				routing: {
@@ -472,7 +472,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'passengers',
 				type: 'string',
 				default: '',
-				placeholder: '1,1,2',
+				placeholder: 'e.g. 1,1,2',
 				description: PASSENGERS_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'passengers', value: CSV_TO_NUMBER_ARRAY },
@@ -483,7 +483,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'return_airline_codes',
 				type: 'string',
 				default: '',
-				placeholder: 'LH,BA',
+				placeholder: 'e.g. LH,BA',
 				description:
 					'Comma-separated airline codes for the return leg. Sent as the return_airline_codes array.',
 				routing: {
@@ -496,7 +496,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Latest acceptable return arrival time. Maps to return_arrival_time_max and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Latest acceptable return arrival time. Maps to return_arrival_time_max and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'return_arrival_time_max' },
 				},
@@ -507,7 +507,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Earliest acceptable return arrival time. Maps to return_arrival_time_min and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Earliest acceptable return arrival time. Maps to return_arrival_time_min and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'return_arrival_time_min' },
 				},
@@ -518,7 +518,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Latest acceptable return departure time. Maps to return_departure_time_max and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Latest acceptable return departure time. Maps to return_departure_time_max and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'return_departure_time_max' },
 				},
@@ -529,7 +529,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'string',
 				default: '',
 				description:
-					'Earliest acceptable return departure time. Maps to return_departure_time_min and is passed through unchanged; use the format shown on the RapidAPI listing.',
+					'Earliest acceptable return departure time. Maps to return_departure_time_min and is passed through unchanged; see the FlightPowers API docs for the accepted format.',
 				routing: {
 					send: { type: 'body', property: 'return_departure_time_min' },
 				},
@@ -539,7 +539,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'return_exclude_airline_codes',
 				type: 'string',
 				default: '',
-				placeholder: 'FR,W6',
+				placeholder: 'e.g. FR,W6',
 				description:
 					'Comma-separated airline codes to exclude on the return leg. Sent as the return_exclude_airline_codes array.',
 				routing: {

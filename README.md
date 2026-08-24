@@ -42,7 +42,8 @@ Full n8n guide: <https://docs.n8n.io/integrations/community-nodes/installation-a
 
 ---
 
-\1
+## Credentials
+
 The node authenticates with a single **FlightPowers API** credential: your API
 key, sent as the `x-api-key` header to `https://api.flightpowers.com`.
 
@@ -55,12 +56,13 @@ reports remaining quota without running a billable search.
 
 Get a key: <https://api.flightpowers.com/docs>
 
+---
 
 ## Operations
 
 ### Flight → Search One-Way
 
-`POST /api/google_flights/oneway/v1`
+`POST https://api.flightpowers.com/v1/flights/oneway`
 
 **Required:** From Airport (IATA), To Airport (IATA), Departure Date
 (`YYYY-MM-DD`).
@@ -76,7 +78,7 @@ Fallback (default `false`, slower but better on hard routes).
 
 ### Flight → Search Round-Trip
 
-`POST /api/google_flights/roundtrip/v1`
+`POST https://api.flightpowers.com/v1/flights/roundtrip`
 
 **Required:** From Airport, To Airport, Departure Date, Return Date.
 
@@ -91,7 +93,7 @@ The "Outbound …" options map to the API's `departure_*` parameters; the
 
 ### Hotel → Search Destination
 
-`POST /search`
+`POST https://api.flightpowers.com/v1/hotels/search`
 
 **Required:** Destination (free text — `Paris`, `Tokyo Shibuya`, `Hilton NYC`),
 Check-in Date, Check-out Date.
@@ -107,7 +109,7 @@ Sauna, Stars 3/4/5, Swimming Pool, Very Good Breakfast.
 
 ### Hotel → Get by Name
 
-`POST /hotel_by_name`
+`POST https://api.flightpowers.com/v1/hotels/by-name`
 
 **Required:** Hotel Name, Check-in Date, Check-out Date.
 
@@ -131,8 +133,8 @@ a failure.
 - **Limit** follows the n8n convention and pre-fills `50`. Leave the option off
   entirely and the API applies its own default of `10`.
 - The time-window options (`departure_time_min`, `departure_arrival_time_max`
-  and friends) are passed through to the API unchanged. Use the format shown on
-  the RapidAPI listing for those parameters.
+  and friends) are passed through to the API unchanged. See the FlightPowers
+  API docs for the format those parameters accept.
 
 ---
 
@@ -226,16 +228,19 @@ GitHub release and publishes with `--provenance`. Register that workflow as a
 repository. Do not publish by hand — n8n's verification process requires a
 GitHub Action with a provenance statement.
 
-**Never commit a real key.** The credential field is the only place a RapidAPI
-key belongs; use `YOUR_RAPIDAPI_KEY` in docs, issues and screenshots.
+**Never commit a real key.** The credential field is the only place an API key
+belongs; use `YOUR_FLIGHTPOWERS_API_KEY` in docs, issues and screenshots.
 
 ---
 
 ## Resources
 
 - n8n community nodes documentation: <https://docs.n8n.io/integrations/community-nodes/>
-- Flights API listing: <https://rapidapi.com/mtnrabi/api/google-flights-live-api>
-- Hotels API listing: <https://rapidapi.com/mtnrabi/api/booking-live-api>
+- FlightPowers API docs: <https://api.flightpowers.com/docs>
+- Buy a key on the RapidAPI marketplace — flights:
+  <https://rapidapi.com/mtnrabi/api/google-flights-live-api>
+- Buy a key on the RapidAPI marketplace — hotels:
+  <https://rapidapi.com/mtnrabi/api/booking-live-api>
 
 ## License
 

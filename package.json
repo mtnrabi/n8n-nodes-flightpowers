@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-flightpowers",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "n8n community node for the FlightPowers travel-data API: live flight fares with Google price insights, and live Booking.com hotel rates with per-country pricing. Independent API; not affiliated with, endorsed by, or sponsored by Google or Booking.com.",
 	"keywords": [
 		"n8n-community-node-package",

@@ -83,7 +83,7 @@ export const hotelFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'Paris',
+		placeholder: 'e.g. Paris',
 		description:
 			'Free-text destination, for example Paris, Tokyo Shibuya, or Hilton NYC',
 		displayOptions: {
@@ -106,7 +106,7 @@ export const hotelFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'Hotel Le Meurice',
+		placeholder: 'e.g. Hotel Le Meurice',
 		description: 'Name of the property to look up',
 		displayOptions: {
 			show: {
@@ -128,7 +128,7 @@ export const hotelFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: '2026-06-15',
+		placeholder: 'e.g. 2026-06-15',
 		description: 'Check-in date in YYYY-MM-DD format',
 		displayOptions: {
 			show: {
@@ -146,7 +146,7 @@ export const hotelFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: '2026-06-19',
+		placeholder: 'e.g. 2026-06-19',
 		description: 'Check-out date in YYYY-MM-DD format',
 		displayOptions: {
 			show: {
@@ -233,7 +233,7 @@ export const hotelFields: INodeProperties[] = [
 				name: 'proxy_country',
 				type: 'string',
 				default: '',
-				placeholder: 'de',
+				placeholder: 'e.g. de',
 				description: PROXY_COUNTRY_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'proxy_country' },
@@ -274,7 +274,7 @@ export const hotelFields: INodeProperties[] = [
 				name: 'area',
 				type: 'string',
 				default: '',
-				placeholder: 'Paris',
+				placeholder: 'e.g. Paris',
 				description: 'Area or city used to disambiguate a generic hotel name',
 				routing: {
 					send: { type: 'body', property: 'area' },
@@ -316,7 +316,7 @@ export const hotelFields: INodeProperties[] = [
 				name: 'proxy_country',
 				type: 'string',
 				default: '',
-				placeholder: 'de',
+				placeholder: 'e.g. de',
 				description: PROXY_COUNTRY_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'proxy_country' },
