@@ -1,66 +1,66 @@
 {
-  "name": "n8n-nodes-flight-hotel-data",
-  "version": "0.1.2",
-  "description": "n8n community node for real-time flight and hotel pricing via the RapidAPI Flight & Hotel Data APIs. Independent API; not affiliated with, endorsed by, or sponsored by Google or Booking.com.",
-  "keywords": [
-    "n8n-community-node-package",
-    "n8n",
-    "flights",
-    "hotels",
-    "travel",
-    "rapidapi"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/mtnrabi/n8n-nodes-flight-hotel-data",
-  "author": {
-    "name": "mtnrabi",
-    "email": "mtnrabi@gmail.com",
-    "url": "https://rapidapi.com/mtnrabi"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mtnrabi/n8n-nodes-flight-hotel-data.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mtnrabi/n8n-nodes-flight-hotel-data/issues"
-  },
-  "engines": {
-    "node": ">=20.15"
-  },
-  "main": "index.js",
-  "scripts": {
-    "build": "npx rimraf dist && tsc && gulp build:icons",
-    "dev": "tsc --watch",
-    "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "npm run build && npm run lint"
-  },
-  "files": [
-    "dist",
-    "index.js"
-  ],
-  "n8n": {
-    "n8nNodesApiVersion": 1,
-    "credentials": [
-      "dist/credentials/RapidApiFlightHotelApi.credentials.js"
-    ],
-    "nodes": [
-      "dist/nodes/FlightHotelData/FlightHotelData.node.js"
-    ]
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.0",
-    "@typescript-eslint/parser": "^8.32.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.3",
-    "gulp": "^5.0.0",
-    "n8n-workflow": "^2.16.0",
-    "prettier": "^3.5.3",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.8.2"
-  },
-  "peerDependencies": {
-    "n8n-workflow": "*"
-  }
+	"name": "n8n-nodes-flightpowers",
+	"version": "0.2.0",
+	"description": "n8n community node for the FlightPowers travel-data API: live flight fares with Google price insights, and live Booking.com hotel rates with per-country pricing. Independent API; not affiliated with, endorsed by, or sponsored by Google or Booking.com.",
+	"keywords": [
+		"n8n-community-node-package",
+		"n8n",
+		"flights",
+		"hotels",
+		"travel",
+		"flightpowers"
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/mtnrabi/n8n-nodes-flightpowers",
+	"author": {
+		"name": "mtnrabi",
+		"email": "mtnrabi@gmail.com",
+		"url": "https://rapidapi.com/mtnrabi"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mtnrabi/n8n-nodes-flightpowers.git"
+	},
+	"bugs": {
+		"url": "https://github.com/mtnrabi/n8n-nodes-flightpowers/issues"
+	},
+	"engines": {
+		"node": ">=20.15"
+	},
+	"main": "index.js",
+	"scripts": {
+		"build": "npx rimraf dist && tsc && gulp build:icons",
+		"dev": "tsc --watch",
+		"format": "prettier nodes credentials --write",
+		"lint": "eslint nodes credentials package.json",
+		"lintfix": "eslint nodes credentials package.json --fix",
+		"prepublishOnly": "npm run build && npm run lint"
+	},
+	"files": [
+		"dist",
+		"index.js"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/FlightPowersApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/FlightPowers/FlightPowers.node.js"
+		]
+	},
+	"devDependencies": {
+		"@types/node": "^22.15.0",
+		"@typescript-eslint/parser": "^8.32.0",
+		"eslint": "^8.57.0",
+		"eslint-plugin-n8n-nodes-base": "^1.16.3",
+		"gulp": "^5.0.0",
+		"n8n-workflow": "^2.16.0",
+		"prettier": "^3.5.3",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.8.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
 }

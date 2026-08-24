@@ -1,7 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
 
-const FLIGHTS_HOST = 'google-flights-live-api.p.rapidapi.com';
-const FLIGHTS_BASE = `https://${FLIGHTS_HOST}`;
+const FLIGHTS_BASE = 'https://api.flightpowers.com';
 
 // Comma-separated user input -> JSON array of trimmed strings.
 const CSV_TO_STRING_ARRAY =
@@ -45,10 +44,7 @@ export const flightOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'POST',
-						url: `${FLIGHTS_BASE}/api/google_flights/oneway/v1`,
-						headers: {
-							'x-rapidapi-host': FLIGHTS_HOST,
-						},
+						url: `${FLIGHTS_BASE}/v1/flights/oneway`,
 					},
 				},
 			},
@@ -60,10 +56,7 @@ export const flightOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'POST',
-						url: `${FLIGHTS_BASE}/api/google_flights/roundtrip/v1`,
-						headers: {
-							'x-rapidapi-host': FLIGHTS_HOST,
-						},
+						url: `${FLIGHTS_BASE}/v1/flights/roundtrip`,
 					},
 				},
 			},

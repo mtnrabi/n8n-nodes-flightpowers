@@ -4,14 +4,10 @@ import { flightFields, flightOperations } from './FlightDescription';
 import { hotelFields, hotelOperations } from './HotelDescription';
 
 /**
- * Declarative-style node for the RapidAPI Flight & Hotel Data APIs.
+ * Declarative-style node for the FlightPowers travel-data API.
  *
- * Flights  -> google-flights-live-api.p.rapidapi.com
- * Hotels   -> booking-live-api.p.rapidapi.com
- *
- * Both hosts authenticate with the same `x-rapidapi-key` header, injected by
- * the credential. The matching `x-rapidapi-host` header is set per operation
- * because the two APIs live on different hosts.
+ * Every operation calls https://api.flightpowers.com and authenticates with the
+ * `x-api-key` header injected by the credential.
  *
  * Prices returned by these APIs are live and go stale within minutes. Do not
  * cache or reuse an earlier result; re-run the search and record when it ran.
@@ -20,13 +16,13 @@ import { hotelFields, hotelOperations } from './HotelDescription';
  * pricing. It is not affiliated with, endorsed by, or sponsored by Google or
  * Booking.com.
  */
-export class FlightHotelData implements INodeType {
+export class FlightPowers implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Flight & Hotel Data',
-		name: 'flightHotelData',
+		displayName: 'FlightPowers',
+		name: 'flightPowers',
 		icon: {
-			light: 'file:flightHotelData.svg',
-			dark: 'file:flightHotelData.dark.svg',
+			light: 'file:flightPowers.svg',
+			dark: 'file:flightPowers.dark.svg',
 		},
 		group: ['transform'],
 		version: 1,
@@ -34,7 +30,7 @@ export class FlightHotelData implements INodeType {
 		description:
 			'Search real-time flight fares and hotel prices through the RapidAPI Flight & Hotel Data APIs',
 		defaults: {
-			name: 'Flight & Hotel Data',
+			name: 'FlightPowers',
 		},
 		// Cast keeps this source compatible with both the enum-based and the
 		// string-literal-union definitions of connection types in n8n-workflow.
@@ -43,7 +39,7 @@ export class FlightHotelData implements INodeType {
 		usableAsTool: true,
 		credentials: [
 			{
-				name: 'rapidApiFlightHotelApi',
+				name: 'flightPowersApi',
 				required: true,
 			},
 		],

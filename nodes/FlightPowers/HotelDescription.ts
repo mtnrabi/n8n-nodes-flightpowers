@@ -1,7 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
 
-const HOTELS_HOST = 'booking-live-api.p.rapidapi.com';
-const HOTELS_BASE = `https://${HOTELS_HOST}`;
+const HOTELS_BASE = 'https://api.flightpowers.com';
 
 const PROXY_COUNTRY_DESCRIPTION =
 	'Two-letter country code. Routes the request through a residential proxy in that country, so the same hotel and dates are priced the way a user in that country would see them. Useful for rate-parity and geo-pricing checks.';
@@ -53,10 +52,7 @@ export const hotelOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'POST',
-						url: `${HOTELS_BASE}/search`,
-						headers: {
-							'x-rapidapi-host': HOTELS_HOST,
-						},
+						url: `${HOTELS_BASE}/v1/hotels/search`,
 					},
 				},
 			},
@@ -68,10 +64,7 @@ export const hotelOperations: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'POST',
-						url: `${HOTELS_BASE}/hotel_by_name`,
-						headers: {
-							'x-rapidapi-host': HOTELS_HOST,
-						},
+						url: `${HOTELS_BASE}/v1/hotels/by-name`,
 					},
 				},
 			},

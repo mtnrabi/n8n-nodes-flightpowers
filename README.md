@@ -1,7 +1,8 @@
-# n8n-nodes-flight-hotel-data
+# n8n-nodes-flightpowers
 
-An [n8n](https://n8n.io/) community node for real-time flight fares and hotel
-prices, served by the RapidAPI Flight & Hotel Data APIs.
+An [n8n](https://n8n.io/) community node for the
+[FlightPowers](https://api.flightpowers.com/docs) travel-data API: real-time
+flight fares and hotel prices from one vendor, one credential, one node.
 
 One node, two resources, four operations: one-way flight search, round-trip
 flight search, hotel destination search, and hotel-by-name lookup.
@@ -25,52 +26,35 @@ available on n8n Cloud.
 
 1. Go to **Settings > Community nodes**.
 2. Select **Install**.
-3. Enter `n8n-nodes-flight-hotel-data`.
+3. Enter `n8n-nodes-flightpowers`.
 4. Agree to the risks of using community nodes and select **Install**.
 
 ### Manually
 
 ```bash
 cd ~/.n8n/nodes
-npm install n8n-nodes-flight-hotel-data
+npm install n8n-nodes-flightpowers
 ```
 
-Restart n8n. The node appears in the nodes panel as **Flight & Hotel Data**.
+Restart n8n. The node appears in the nodes panel as **FlightPowers**.
 
 Full n8n guide: <https://docs.n8n.io/integrations/community-nodes/installation-and-management>
 
 ---
 
-## Credentials
+\1
+The node authenticates with a single **FlightPowers API** credential: your API
+key, sent as the `x-api-key` header to `https://api.flightpowers.com`.
 
-The node uses one credential, **RapidAPI Flight & Hotel Data API**, holding a
-single field: your RapidAPI key.
+If you subscribed through the RapidAPI marketplace, use that RapidAPI key here
+unchanged — the same key authorises both the flight and the hotel operations,
+and your usage stays billed to that subscription.
 
-1. Create a RapidAPI account and subscribe to the API(s) you need:
-   - Flights: <https://rapidapi.com/mtnrabi/api/google-flights-live-api>
-   - Hotels: <https://rapidapi.com/mtnrabi/api/booking-live-api>
-2. Copy your key from the RapidAPI dashboard.
-3. In n8n, create a new **RapidAPI Flight & Hotel Data API** credential and
-   paste the key (shown here as the placeholder `YOUR_RAPIDAPI_KEY`).
+Saving the credential calls `GET /v1/verify`, which validates the key and
+reports remaining quota without running a billable search.
 
-The key is sent as the `x-rapidapi-key` header. The node sets the matching
-`x-rapidapi-host` header per operation, because flights and hotels live on
-different hosts:
+Get a key: <https://api.flightpowers.com/docs>
 
-| Resource | Host |
-| --- | --- |
-| Flight | `google-flights-live-api.p.rapidapi.com` |
-| Hotel | `booking-live-api.p.rapidapi.com` |
-
-The same key works for both. There is no separate credential test call — the
-credential is validated by the first real request, so the first execution is
-also your auth check.
-
-> **Every request is billed to your own RapidAPI subscription.** A workflow on
-> a schedule spends real money on every run. Decide the call budget before you
-> enable the trigger, not after the invoice.
-
----
 
 ## Operations
 
@@ -233,7 +217,7 @@ To try it in a local n8n instance:
 ```bash
 npm run build
 npm link
-cd ~/.n8n/nodes && npm link n8n-nodes-flight-hotel-data
+cd ~/.n8n/nodes && npm link n8n-nodes-flightpowers
 ```
 
 Publishing is handled by `.github/workflows/publish.yml`, which runs on a

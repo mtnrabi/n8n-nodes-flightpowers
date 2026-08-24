@@ -1,0 +1,20 @@
+{
+	"node": "n8n-nodes-flightpowers.flightPowers",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Data & Storage"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://api.flightpowers.com/docs"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/mtnrabi/n8n-nodes-flightpowers#readme"
+			}
+		]
+	}
+}
