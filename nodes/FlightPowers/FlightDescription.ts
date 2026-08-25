@@ -24,6 +24,19 @@ const SORT_TYPE_OPTIONS = [
 	{ name: 'Duration', value: 'Duration' },
 ];
 
+// Applies to both flight operations. One-way used to accept sort_type and then
+// drop it before the search ran; that was fixed upstream and both endpoints now
+// honour it, so both operations share one description.
+const SORT_TYPE_DESCRIPTION =
+	'How the API sorts the returned itineraries. Applies to both one-way and round-trip searches.';
+
+// The API accepts use_fallback, but the second flight-data source it selects is
+// not switched on, so none of its values changes a search today. Described as
+// inert rather than removed: taking the option away would break workflows that
+// already set it.
+const USE_FALLBACK_DESCRIPTION =
+	"Whether to request the API's second, independent flight-data source. That source is not switched on, so this option currently has no effect on a search. Leave it off.";
+
 export const flightOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -296,8 +309,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'options',
 				options: SORT_TYPE_OPTIONS,
 				default: 'Overall',
-				description:
-					'Known API defect: sort_type is accepted by the one-way schema but is NOT applied to one-way searches. It does work on round-trip. Sort one-way results yourself with a Sort node.',
+				description: SORT_TYPE_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'sort_type' },
 				},
@@ -307,7 +319,8 @@ export const flightFields: INodeProperties[] = [
 				name: 'use_ext_proxy',
 				type: 'boolean',
 				default: true,
-				description: 'Whether to route the upstream request through an external proxy. API default is true.',
+				description:
+					'Whether the upstream request may be routed through an external residential proxy, which reduces blocks. Set false to force a direct request. API default is true.',
 				routing: {
 					send: { type: 'body', property: 'use_ext_proxy' },
 				},
@@ -317,8 +330,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'use_fallback',
 				type: 'boolean',
 				default: false,
-				description:
-					'Whether to use the fallback collection path. Slower, but better on hard routes. API default is false.',
+				description: USE_FALLBACK_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'use_fallback' },
 				},
@@ -567,7 +579,7 @@ export const flightFields: INodeProperties[] = [
 				type: 'options',
 				options: SORT_TYPE_OPTIONS,
 				default: 'Overall',
-				description: 'How the API sorts the returned itineraries',
+				description: SORT_TYPE_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'sort_type' },
 				},
@@ -577,7 +589,8 @@ export const flightFields: INodeProperties[] = [
 				name: 'use_ext_proxy',
 				type: 'boolean',
 				default: true,
-				description: 'Whether to route the upstream request through an external proxy. API default is true.',
+				description:
+					'Whether the upstream request may be routed through an external residential proxy, which reduces blocks. Set false to force a direct request. API default is true.',
 				routing: {
 					send: { type: 'body', property: 'use_ext_proxy' },
 				},
@@ -587,8 +600,7 @@ export const flightFields: INodeProperties[] = [
 				name: 'use_fallback',
 				type: 'boolean',
 				default: false,
-				description:
-					'Whether to use the fallback collection path. Slower, but better on hard routes. API default is false.',
+				description: USE_FALLBACK_DESCRIPTION,
 				routing: {
 					send: { type: 'body', property: 'use_fallback' },
 				},

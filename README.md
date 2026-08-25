@@ -70,11 +70,7 @@ Get a key: <https://api.flightpowers.com/docs>
 **Options:** Airline Codes, Arrival Time Min/Max, Currency (default `USD`),
 Departure Time Min/Max, Exclude Airline Codes, Limit, Max Price, Max Stops,
 Passengers, Seat Type, Sort Type, Use External Proxy (default `true`), Use
-Fallback (default `false`, slower but better on hard routes).
-
-> **Known API defect, stated rather than hidden:** `sort_type` is accepted by
-> the one-way schema but is **not** applied to one-way searches. It does work on
-> round-trip. Sort one-way results yourself with a **Sort** node after this one.
+Fallback.
 
 ### Flight → Search Round-Trip
 
@@ -130,6 +126,12 @@ a failure.
   `1` adult, `2` child, `3` infant on lap, `4` infant in seat. Two adults and a
   child is `1,1,2`.
 - **Seat Type** offers Economy (`1`) and Business (`3`).
+- **Sort Type** offers Overall, Price and Duration, and applies to both one-way
+  and round-trip searches.
+- **Use Fallback** is accepted by the API but currently has no effect on a
+  search. It selects a second, independent flight-data source, and that source
+  is not switched on for this API, so none of its values changes anything today.
+  Leave the option off.
 - **Limit** follows the n8n convention and pre-fills `50`. Leave the option off
   entirely and the API applies its own default of `10`.
 - The time-window options (`departure_time_min`, `departure_arrival_time_max`
@@ -150,10 +152,22 @@ fare is a wrong fare.
 ### Flight responses
 
 Both flight operations return a **bare JSON array**, so this node emits one n8n
-item per itinerary. An empty result is `[]` with **HTTP 200** — that means "no
-flights on this route and date", not an error, and it produces zero output
-items. Guard downstream branches accordingly (for example with an **If** or
-**No Operation** path).
+item per itinerary. An empty result is `[]` with **HTTP 200**: zero output
+items, not an error. Guard downstream branches accordingly (for example with an
+**If** or **No Operation** path).
+
+Zero items is not on its own proof that there are no flights. The API says which
+it was in the `X-Search-Status` response header — `ok`, `empty`, `partial` or
+`degraded`. `empty` means the search completed and there genuinely is nothing
+for that route and date; `degraded` means the search did not complete, so the
+empty array says nothing about availability and the run is worth repeating.
+`X-Search-Reason`, `X-Search-Results`, `X-Search-Attempts`, `X-Search-Retries`
+and `X-Search-Combinations` describe what the search did.
+
+This node emits the response body, so those headers are not visible inside it.
+Treat zero items as "no result on this run" rather than telling a user there are
+no flights; a workflow that must tell the two apart can call the same endpoint
+with an **HTTP Request** node and read the header.
 
 Every one-way item carries, among other fields: `price`, `price_as_number`,
 `duration`, `duration_seconds`, `airline`, `stops`, `stops_info`,
