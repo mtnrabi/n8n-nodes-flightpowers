@@ -199,13 +199,38 @@ the `properties` field.
 `price`, `review_score`, `review_count`, `room_type`, `image_url`, `link`,
 `nights`, `adults`, `children`.
 
-### Proxy Country — the option most people miss
+### Proxy Country, the option most people miss
 
 `proxy_country` routes the request through a residential proxy in the country
-you name (a two-letter code such as `us`, `de`, `il`), so the same hotel and the
-same dates are priced the way a user in that country would see them. Fan a
-workflow out over several country codes and you have **rate-parity and
-geo-pricing monitoring**, which is a business use case rather than a hobby one.
+you name (a two-letter code such as `de`, `jp`, `il`), so the same room on the
+same dates is priced the way a resident of that country would be quoted it.
+That is what makes **rate-parity and geo-pricing monitoring** possible, and it
+is a business use case rather than a hobby one.
+
+Two things to build into the workflow, or it will report gaps that are not
+there:
+
+- **Sample each country more than once.** Rates move between identical calls. A
+  workflow that makes one call per country and diffs the prices will find a
+  difference nearly every time, and most of those are the rate moving rather
+  than the country. Run the country list three times, treat the spread inside a
+  single country as your noise floor, and only report a gap that is larger than
+  that floor and points the same way on every pass.
+- **Pin the property and the currency.** Use **Get by Name** with a fixed Hotel
+  Name and Area, not the first row of a **Search Destination** result: the order
+  of `properties` is not stable across identical requests, so row 1 is a
+  different hotel from one call to the next. Send the same Currency to every
+  country, or you are measuring the FX rate instead of the hotel.
+
+Real gaps are modest and depend on the property. In a controlled test on
+2026-08-28, three independent Rome guest houses came back about 4% cheaper from
+Japan than from Germany, holding across repeated samples, while a chain hotel
+returned the same price from every country tried. "No gap" is a valid result,
+not a failed check.
+
+`proxy_country` is an input only. Nothing in the response says which country a
+price came from, so carry the country code through the workflow yourself, for
+example with a **Set** node alongside the FlightPowers node.
 
 ---
 

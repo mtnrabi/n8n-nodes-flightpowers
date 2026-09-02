@@ -3,7 +3,7 @@ import type { INodeProperties } from 'n8n-workflow';
 const HOTELS_BASE = 'https://api.flightpowers.com';
 
 const PROXY_COUNTRY_DESCRIPTION =
-	'Two-letter country code. Routes the request through a residential proxy in that country, so the same hotel and dates are priced the way a user in that country would see them. Useful for rate-parity and geo-pricing checks.';
+	'Two-letter country code. Routes the request through a residential proxy in that country, so the same hotel and dates are priced the way a resident of that country would be quoted them. For a rate-parity or geo-pricing check, sample each country several times against one named property: rates move between identical calls, so a single call per country can show a gap that is not really there.';
 
 const FILTER_OPTIONS = [
 	{ name: 'Accepts Online Payment', value: 'accepts_online_payment' },
