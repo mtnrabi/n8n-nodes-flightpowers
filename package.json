@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-flightpowers",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "n8n community node for the FlightPowers travel-data API: live flight fares with Google price insights, and live Booking.com hotel rates with per-country pricing. Independent API; not affiliated with, endorsed by, or sponsored by Google or Booking.com.",
 	"keywords": [
 		"n8n-community-node-package",
@@ -33,8 +33,9 @@
 		"dev": "tsc --watch",
 		"format": "prettier nodes credentials --write",
 		"lint": "eslint nodes credentials package.json",
+		"test": "npm run build && node scripts/check-attribution.mjs",
 		"lintfix": "eslint nodes credentials package.json --fix",
-		"prepublishOnly": "npm run build && npm run lint"
+		"prepublishOnly": "npm run build && npm run lint && node scripts/check-attribution.mjs"
 	},
 	"files": [
 		"dist",

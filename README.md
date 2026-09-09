@@ -234,6 +234,19 @@ example with a **Set** node alongside the FlightPowers node.
 
 ---
 
+## How calls are counted
+
+Every request this node sends carries `X-FP-Client: n8n-node/<version>`. It
+names the node as the caller so FlightPowers can tell n8n traffic apart from
+someone calling the same API by hand, and it is the only thing the header does:
+no search parameter changes, no request body changes, no response changes, and
+nothing about your key, your workflow or your search terms is in it.
+
+Before 0.2.3 the header was absent and every call from this node was counted as
+an anonymous marketplace call.
+
+---
+
 ## Compatibility
 
 - Requires Node.js **20.15 or newer**, matching current n8n requirements.
@@ -251,7 +264,14 @@ example with a **Set** node alongside the FlightPowers node.
 npm install
 npm run lint      # eslint-plugin-n8n-nodes-base, community ruleset
 npm run build     # tsc + gulp build:icons -> dist/
+npm test          # builds, then checks the X-FP-Client client name
 ```
+
+`npm test` guards the one thing here that can rot without failing anything else:
+the client name in `nodes/FlightPowers/attribution.ts` has to match the version
+in `package.json`, has to stay a value the FlightPowers front accepts, and has
+to actually be attached to both the node and the credential test. **Bump it in
+the same commit as the version.**
 
 To try it in a local n8n instance:
 

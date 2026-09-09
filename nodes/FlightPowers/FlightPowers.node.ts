@@ -1,5 +1,6 @@
 import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
 
+import { CLIENT_NAME } from './attribution';
 import { flightFields, flightOperations } from './FlightDescription';
 import { hotelFields, hotelOperations } from './HotelDescription';
 
@@ -7,7 +8,9 @@ import { hotelFields, hotelOperations } from './HotelDescription';
  * Declarative-style node for the FlightPowers travel-data API.
  *
  * Every operation calls https://api.flightpowers.com and authenticates with the
- * `x-api-key` header injected by the credential.
+ * `x-api-key` header injected by the credential, and names this package in the
+ * `X-FP-Client` header so the call is counted as n8n traffic rather than as an
+ * anonymous marketplace call. See ./attribution.ts.
  *
  * Prices returned by these APIs are live and go stale within minutes. Do not
  * cache or reuse an earlier result; re-run the search and record when it ran.
@@ -47,6 +50,9 @@ export class FlightPowers implements INodeType {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
+				// Sent on all four operations, which is why it lives here rather
+				// than being repeated in each operation's routing block.
+				'X-FP-Client': CLIENT_NAME,
 			},
 			json: true,
 		},

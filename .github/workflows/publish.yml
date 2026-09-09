@@ -34,6 +34,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Attribution is a header value: a wrong one fails no build and breaks no
+      # search, it just files every call from this node under a name nobody is
+      # looking at. That is how it stayed absent for three releases, so it is
+      # checked here rather than left to review.
+      - name: Check attribution
+        run: node scripts/check-attribution.mjs
+
       - name: Publish
         run: npm publish --provenance --access public
         env:
