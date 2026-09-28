@@ -3,6 +3,37 @@
 Versions before 0.2.3 were recorded only in GitHub releases and commit
 messages; they are summarised here from those.
 
+## 0.2.4 — 2026-09-28
+
+### Fixed
+
+- **An empty origin, destination or date was sent, and billed.** `required:
+  true` on a field is checked by the n8n editor against the raw value, never
+  against what an expression resolves to, so a mapped field that came up empty
+  for an item (`{{ $json.origin }}` with no `origin`, an unfilled `$fromAI`)
+  went out as `""`. The API rejects that with a 422 in under a second, and
+  RapidAPI meters the request all the same. On 2026-09-28 one workflow made
+  seven such calls in six minutes and used up a free plan without a single
+  real search.
+
+  Each required field now carries a `preSend` hook
+  (`nodes/FlightPowers/validation.ts`) that reads the resolved value and stops
+  the node with a `NodeOperationError` -- named field, how to fill it, "no
+  request was sent" -- when it is blank, or, for `departure_date` and
+  `return_date`, is not a real calendar date. Nothing is sent, nothing is
+  charged. Valid requests are untouched: same body, same headers.
+
+- The date placeholders said `e.g. 2026-06-15` and `2026-06-19`, which became
+  past dates and a guaranteed 422 for anyone who copied them. They now read
+  `2027-03-15` / `2027-03-19`, and `npm test` fails when a placeholder's year
+  is not in the future.
+
+### Added
+
+- `scripts/check-required.mjs`, run from `npm test` and `prepublishOnly`:
+  every required field has exactly one hook, the hooks refuse blank values
+  and non-dates and pass real ones, and the placeholders are in the future.
+
 ## 0.2.3 — 2026-09-09
 
 ### Fixed

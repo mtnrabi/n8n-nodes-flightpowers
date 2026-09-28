@@ -1,5 +1,7 @@
 import type { INodeProperties } from 'n8n-workflow';
 
+import { requireField } from './validation';
+
 const FLIGHTS_BASE = 'https://api.flightpowers.com';
 
 // Comma-separated user input -> JSON array of trimmed strings.
@@ -64,7 +66,8 @@ export const flightOperations: INodeProperties[] = [
 			{
 				name: 'Search Round-Trip',
 				value: 'searchRoundTrip',
-				description: 'Search live round-trip fares for one route, one departure date and one return date',
+				description:
+					'Search live round-trip fares for one route, one departure date and one return date',
 				action: 'Search round trip flights',
 				routing: {
 					request: {
@@ -89,7 +92,8 @@ export const flightFields: INodeProperties[] = [
 		required: true,
 		default: '',
 		placeholder: 'e.g. BER',
-		description: 'Origin airport IATA code',
+		description:
+			'Origin airport IATA code. An empty value stops the node before any request is sent.',
 		displayOptions: {
 			show: {
 				resource: ['flight'],
@@ -97,7 +101,11 @@ export const flightFields: INodeProperties[] = [
 			},
 		},
 		routing: {
-			send: { type: 'body', property: 'from_airport' },
+			send: {
+				type: 'body',
+				property: 'from_airport',
+				preSend: [requireField('from_airport', 'From Airport', 'text')],
+			},
 		},
 	},
 	{
@@ -107,7 +115,8 @@ export const flightFields: INodeProperties[] = [
 		required: true,
 		default: '',
 		placeholder: 'e.g. CDG',
-		description: 'Destination airport IATA code',
+		description:
+			'Destination airport IATA code. An empty value stops the node before any request is sent.',
 		displayOptions: {
 			show: {
 				resource: ['flight'],
@@ -115,7 +124,11 @@ export const flightFields: INodeProperties[] = [
 			},
 		},
 		routing: {
-			send: { type: 'body', property: 'to_airport' },
+			send: {
+				type: 'body',
+				property: 'to_airport',
+				preSend: [requireField('to_airport', 'To Airport', 'text')],
+			},
 		},
 	},
 	{
@@ -124,8 +137,9 @@ export const flightFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'e.g. 2026-06-15',
-		description: 'Outbound date in YYYY-MM-DD format',
+		placeholder: 'e.g. 2027-03-15',
+		description:
+			'Outbound date in YYYY-MM-DD format. Checked before the request is sent: an empty value or a date that does not exist stops the node here instead of spending a request on a 422.',
 		displayOptions: {
 			show: {
 				resource: ['flight'],
@@ -133,7 +147,11 @@ export const flightFields: INodeProperties[] = [
 			},
 		},
 		routing: {
-			send: { type: 'body', property: 'departure_date' },
+			send: {
+				type: 'body',
+				property: 'departure_date',
+				preSend: [requireField('departure_date', 'Departure Date', 'date')],
+			},
 		},
 	},
 	{
@@ -142,8 +160,9 @@ export const flightFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'e.g. 2026-06-19',
-		description: 'Return date in YYYY-MM-DD format',
+		placeholder: 'e.g. 2027-03-19',
+		description:
+			'Return date in YYYY-MM-DD format. Checked before the request is sent, like the departure date.',
 		displayOptions: {
 			show: {
 				resource: ['flight'],
@@ -151,7 +170,11 @@ export const flightFields: INodeProperties[] = [
 			},
 		},
 		routing: {
-			send: { type: 'body', property: 'return_date' },
+			send: {
+				type: 'body',
+				property: 'return_date',
+				preSend: [requireField('return_date', 'Return Date', 'date')],
+			},
 		},
 	},
 

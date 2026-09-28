@@ -43,4 +43,4 @@ export const CLIENT_HEADER = 'X-FP-Client';
  * disagree, because a stale version here silently files new releases under an
  * old one and makes "did the 0.2.4 upgrade change anything" unanswerable.
  */
-export const CLIENT_NAME = 'n8n-node/0.2.3';
+export const CLIENT_NAME = 'n8n-node/0.2.4';
