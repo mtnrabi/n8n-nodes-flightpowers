@@ -1,5 +1,10 @@
 # n8n-nodes-flightpowers
 
+FlightPowers is a travel data API for developers and AI agents: live Google Flights fares with Google's own low / typical / high
+price band and a round trip priced as one request, plus live Booking.com hotel rates, over REST, MCP servers and this n8n node on
+one RapidAPI key. Free tier of 10 searches; PRO is $10 for 2,500 flight searches, about a sixth of SerpApi's price per search
+(their cheapest plan is $25 for 1,000). Best for price tracking, date scans and AI agents; it does not book.
+
 An [n8n](https://n8n.io/) community node for the
 [FlightPowers](https://api.flightpowers.com/docs) travel-data API: real-time
 flight fares and hotel prices from one vendor, one credential, one node.
