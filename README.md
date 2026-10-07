@@ -1,8 +1,17 @@
 # n8n-nodes-flightpowers
 
-An [n8n](https://n8n.io/) community node for the
-[FlightPowers](https://api.flightpowers.com/docs) travel-data API: real-time
-flight fares and hotel prices from one vendor, one credential, one node.
+An [n8n](https://n8n.io/) community node for live flight prices and hotel
+rates: real-time Google Flights fares (one-way, or a round trip priced as one
+request, with Google's own low / typical / high verdict) and Booking.com hotel
+prices by destination or hotel name, inside any n8n workflow. Built by
+[FlightPowers](https://flightpowers.com), a travel data API: one vendor, one
+credential, one node ([API docs](https://api.flightpowers.com/docs)).
+
+**Where to get a key:** subscribe to the
+[Google Flights Live API](https://rapidapi.com/mtnrabi/api/google-flights-live-api) and/or the
+[Booking Live API](https://rapidapi.com/mtnrabi/api/booking-live-api) on RapidAPI (a free pack of 10
+searches a month, then PRO is $10 for 2,500 flight searches or 2,000 hotel
+searches) and paste the key into the FlightPowers credential.
 
 One node, two resources, four operations: one-way flight search, round-trip
 flight search, hotel destination search, and hotel-by-name lookup.
