@@ -2,23 +2,27 @@
 
 An [n8n](https://n8n.io/) community node for live flight prices and hotel
 rates: real-time Google Flights fares (one-way, or a round trip priced as one
-request, with Google's own low / typical / high verdict) and Booking.com hotel
-prices by destination or hotel name, inside any n8n workflow. Built by
+request, with Google's own low / typical / high verdict), Booking.com hotel
+prices by destination or hotel name, and Airbnb stays by destination with
+Airbnb's own filters, inside any n8n workflow. Built by
 [FlightPowers](https://flightpowers.com), a travel data API: one vendor, one
 credential, one node ([API docs](https://api.flightpowers.com/docs)).
 
 **Where to get a key:** subscribe to the
-[Google Flights Live API](https://rapidapi.com/mtnrabi/api/google-flights-live-api) and/or the
-[Booking Live API](https://rapidapi.com/mtnrabi/api/booking-live-api) on RapidAPI (a free pack of 10
-searches a month, then PRO is $10 for 2,500 flight searches or 2,000 hotel
-searches) and paste the key into the FlightPowers credential.
+[Google Flights Live API](https://rapidapi.com/mtnrabi/api/google-flights-live-api), the
+[Booking Live API](https://rapidapi.com/mtnrabi/api/booking-live-api) and/or the
+[Airbnb Live API](https://rapidapi.com/mtnrabi/api/airbnb-live-api) on RapidAPI (flights and
+Booking: a free pack of 10 searches a month, then PRO is $10 for 2,500 flight searches or 2,000
+hotel searches; Airbnb: BASIC is free for 100 searches a month, then PRO is $10 for 10,000) and
+paste the key into the FlightPowers credential.
 
-One node, two resources, four operations: one-way flight search, round-trip
-flight search, hotel destination search, and hotel-by-name lookup.
+One node, three resources, five operations: one-way flight search, round-trip
+flight search, hotel destination search, hotel-by-name lookup, and Airbnb stay
+search.
 
 > **Not affiliated.** This is an independent API that returns publicly
-> available flight and hotel pricing. It is not affiliated with, endorsed by,
-> or sponsored by Google or Booking.com.
+> available flight, hotel and holiday-rental pricing. It is not affiliated with, endorsed by,
+> or sponsored by Google, Booking.com or Airbnb.
 
 [Installation](#installation) · [Credentials](#credentials) ·
 [Operations](#operations) · [Working with the results](#working-with-the-results) ·
@@ -57,11 +61,19 @@ The node authenticates with a single **FlightPowers API** credential: your API
 key, sent as the `x-api-key` header to `https://api.flightpowers.com`.
 
 If you subscribed through the RapidAPI marketplace, use that RapidAPI key here
-unchanged — the same key authorises both the flight and the hotel operations,
-and your usage stays billed to that subscription.
+unchanged. One key works for every operation, provided it is subscribed to the
+listing behind that operation, and each call is billed to that subscription:
 
-Saving the credential calls `GET /v1/verify`, which validates the key and
-reports remaining quota without running a billable search.
+| Resource | RapidAPI listing the key must be subscribed to |
+|---|---|
+| Flight | [Google Flights Live API](https://rapidapi.com/mtnrabi/api/google-flights-live-api) |
+| Hotel | [Booking Live API](https://rapidapi.com/mtnrabi/api/booking-live-api) |
+| Airbnb | [Airbnb Live API](https://rapidapi.com/mtnrabi/api/airbnb-live-api) (BASIC is free, 100 searches a month) |
+
+Saving the credential calls `GET /v1/verify`, which validates the key without
+running a billable search. It checks the flights and Booking listings only: a
+key subscribed to the Airbnb Live API and nothing else shows as failing that
+test, yet its Airbnb searches work. Save the credential anyway in that case.
 
 Get a key: <https://api.flightpowers.com/docs>
 
@@ -125,6 +137,32 @@ When the property is sold out for those dates the API returns
 `available: false` with null price fields. **That is a valid answer, not an
 error** — branch on `available` with an **If** node rather than treating it as
 a failure.
+
+### Airbnb → Search Stays
+
+`POST https://api.flightpowers.com/v1/hotels/search` with `provider: "airbnb"`
+in the body (the node adds it). Billed to your Airbnb Live API subscription.
+
+**Required:** Destination (`Rome, Italy`, `Lisbon`), Check-in Date, Check-out
+Date. A place Airbnb does not recognise returns no listings, not an error.
+
+**Options:** Adults (default `2`), Children, Infants, Pets, Currency (default
+`USD`), Min Price per Night, Max Price per Night, Min Bedrooms, Min Beds, Min
+Bathrooms, Room Types, Min Rating, Sort.
+
+- **Prices are per night.** Min / Max Price per Night bound the nightly price
+  in the selected currency, and Airbnb applies them itself.
+- **Room Types** are Airbnb's own four: Entire home/apt, Private room, Shared
+  room, Hotel room.
+- **Min Rating** is 0 to 5 (Airbnb rates out of 5); listings with no rating yet
+  are left out when it is set.
+- **Sort** offers Price low to high, Price high to low, and Rating high to low.
+  Airbnb has no sort of its own, so these order the page of results the search
+  returned (and Min Rating filters that page); leave Sort off for Airbnb's
+  relevance order.
+- The Booking.com options (Filters, Budget per Night, Proxy Country, Free
+  Cancellation) are not offered here: Airbnb has no equivalent, and the API
+  refuses them on an Airbnb search rather than silently widening the results.
 
 ### Field formats
 
@@ -208,6 +246,18 @@ the `properties` field.
 `price`, `review_score`, `review_count`, `room_type`, `image_url`, `link`,
 `nights`, `adults`, `children`.
 
+### Airbnb responses
+
+**Search Stays** returns a single object per input item: `provider`
+(`airbnb`), `destination`, `checkin_date`, `checkout_date`,
+`destination_matched` (the place Airbnb resolved your text to), `search_status`,
+`filters_applied` (each filter you sent, and whether Airbnb or the API applied
+it), and `properties`, an array of listings with, among other fields, `name`,
+`price_total`, `price_per_night`, `currency`, `rating`, `review_count`,
+`bedrooms`, `beds`, `baths`, `room_type`, `latitude`, `longitude`, `image_url`
+and `link`. Add a **Split Out** node on `properties` to get one n8n item per
+listing.
+
 ### Proxy Country, the option most people miss
 
 `proxy_country` routes the request through a residential proxy in the country
@@ -273,7 +323,7 @@ an anonymous marketplace call.
 npm install
 npm run lint      # eslint-plugin-n8n-nodes-base, community ruleset
 npm run build     # tsc + gulp build:icons -> dist/
-npm test          # builds, then checks the X-FP-Client client name
+npm test          # builds, then checks the X-FP-Client client name and the required-field hooks
 ```
 
 `npm test` guards the one thing here that can rot without failing anything else:
@@ -309,6 +359,8 @@ belongs; use `YOUR_FLIGHTPOWERS_API_KEY` in docs, issues and screenshots.
   <https://rapidapi.com/mtnrabi/api/google-flights-live-api>
 - Buy a key on the RapidAPI marketplace — hotels:
   <https://rapidapi.com/mtnrabi/api/booking-live-api>
+- Buy a key on the RapidAPI marketplace — Airbnb:
+  <https://rapidapi.com/mtnrabi/api/airbnb-live-api>
 
 ## License
 

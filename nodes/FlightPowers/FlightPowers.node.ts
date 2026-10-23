@@ -1,5 +1,6 @@
 import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
 
+import { airbnbFields, airbnbOperations } from './AirbnbDescription';
 import { CLIENT_NAME } from './attribution';
 import { flightFields, flightOperations } from './FlightDescription';
 import { hotelFields, hotelOperations } from './HotelDescription';
@@ -15,9 +16,9 @@ import { hotelFields, hotelOperations } from './HotelDescription';
  * Prices returned by these APIs are live and go stale within minutes. Do not
  * cache or reuse an earlier result; re-run the search and record when it ran.
  *
- * This is an independent API that returns publicly available flight and hotel
- * pricing. It is not affiliated with, endorsed by, or sponsored by Google or
- * Booking.com.
+ * This is an independent API that returns publicly available flight, hotel and
+ * holiday-rental pricing. It is not affiliated with, endorsed by, or sponsored
+ * by Google, Booking.com or Airbnb.
  */
 export class FlightPowers implements INodeType {
 	description: INodeTypeDescription = {
@@ -31,7 +32,7 @@ export class FlightPowers implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description:
-			'Search live flight fares and hotel prices with the FlightPowers travel-data API',
+			'Search live flight fares, hotel prices and Airbnb stays with the FlightPowers travel-data API',
 		defaults: {
 			name: 'FlightPowers',
 		},
@@ -50,7 +51,7 @@ export class FlightPowers implements INodeType {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				// Sent on all four operations, which is why it lives here rather
+				// Sent on all five operations, which is why it lives here rather
 				// than being repeated in each operation's routing block.
 				'X-FP-Client': CLIENT_NAME,
 			},
@@ -71,6 +72,10 @@ export class FlightPowers implements INodeType {
 						name: 'Hotel',
 						value: 'hotel',
 					},
+					{
+						name: 'Airbnb',
+						value: 'airbnb',
+					},
 				],
 				default: 'flight',
 			},
@@ -78,6 +83,8 @@ export class FlightPowers implements INodeType {
 			...flightFields,
 			...hotelOperations,
 			...hotelFields,
+			...airbnbOperations,
+			...airbnbFields,
 		],
 	};
 }

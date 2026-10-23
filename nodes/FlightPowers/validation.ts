@@ -67,10 +67,17 @@ const HOW_TO_FILL =
  * field holds a usable value, throws before any request otherwise.
  *
  * A factory rather than one shared function so that each field's hook knows
- * which parameter to read and what to call it in the message; n8n calls every
- * `preSend` on the node in turn, so the first empty field is the one reported.
+ * which parameter to read, what to call it in the message and which fields the
+ * hint lists (the flight fields by default; the Airbnb search passes its own).
+ * n8n calls every `preSend` on the node in turn, so the first empty field is the
+ * one reported.
  */
-export function requireField(name: string, displayName: string, kind: RequiredKind): PreSendAction {
+export function requireField(
+	name: string,
+	displayName: string,
+	kind: RequiredKind,
+	howToFill: string = HOW_TO_FILL,
+): PreSendAction {
 	return async function (
 		this: IExecuteSingleFunctions,
 		requestOptions: IHttpRequestOptions,
@@ -81,14 +88,14 @@ export function requireField(name: string, displayName: string, kind: RequiredKi
 		if (value === '') {
 			throw new NodeOperationError(this.getNode(), `${displayName} is empty`, {
 				itemIndex: this.getItemIndex(),
-				description: HOW_TO_FILL,
+				description: howToFill,
 			});
 		}
 		if (kind === 'date' && !isRealCalendarDate(value)) {
 			throw new NodeOperationError(
 				this.getNode(),
 				`${displayName} must be a real calendar date in YYYY-MM-DD format (e.g. ${DATE_EXAMPLE}), got '${value}'`,
-				{ itemIndex: this.getItemIndex(), description: HOW_TO_FILL },
+				{ itemIndex: this.getItemIndex(), description: howToFill },
 			);
 		}
 		return requestOptions;

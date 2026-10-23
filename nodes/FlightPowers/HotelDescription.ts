@@ -128,7 +128,7 @@ export const hotelFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'e.g. 2026-06-15',
+		placeholder: 'e.g. 2027-06-15',
 		description: 'Check-in date in YYYY-MM-DD format',
 		displayOptions: {
 			show: {
@@ -146,7 +146,7 @@ export const hotelFields: INodeProperties[] = [
 		type: 'string',
 		required: true,
 		default: '',
-		placeholder: 'e.g. 2026-06-19',
+		placeholder: 'e.g. 2027-06-18',
 		description: 'Check-out date in YYYY-MM-DD format',
 		displayOptions: {
 			show: {
