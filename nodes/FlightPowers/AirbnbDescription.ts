@@ -188,8 +188,8 @@ export const airbnbFields: INodeProperties[] = [
 				displayName: 'Max Price per Night',
 				name: 'price_max',
 				type: 'number',
-				typeOptions: { minValue: 0 },
-				default: 0,
+				typeOptions: { minValue: 1 },
+				default: 200,
 				description:
 					'Highest price PER NIGHT, in the selected currency. Applied by Airbnb itself, before the results page is built.',
 				routing: {
@@ -245,7 +245,7 @@ export const airbnbFields: INodeProperties[] = [
 				name: 'min_rating',
 				type: 'number',
 				typeOptions: { minValue: 0, maxValue: 5, numberPrecision: 2 },
-				default: 4.5,
+				default: 4,
 				description:
 					'Lowest guest rating, 0 to 5 (Airbnb rates out of 5). Listings with no rating yet are left out when this is set. Applied to the returned page of results.',
 				routing: {

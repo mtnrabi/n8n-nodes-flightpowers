@@ -160,9 +160,9 @@ Bathrooms, Room Types, Min Rating, Sort.
   Airbnb has no sort of its own, so these order the page of results the search
   returned (and Min Rating filters that page); leave Sort off for Airbnb's
   relevance order.
-- The Booking.com options (Filters, Budget per Night, Proxy Country, Free
-  Cancellation) are not offered here: Airbnb has no equivalent, and the API
-  refuses them on an Airbnb search rather than silently widening the results.
+- The Booking.com **Filters** list is not offered here: it is Booking-only, and
+  the API refuses it on an Airbnb search rather than silently widening the
+  results. Use Max Price per Night where you would use Budget per Night.
 
 ### Field formats
 

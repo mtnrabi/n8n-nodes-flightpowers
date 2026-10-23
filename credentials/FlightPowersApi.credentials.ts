@@ -57,7 +57,7 @@ export class FlightPowersApi implements ICredentialType {
 	 * reports remaining quota without running a billable flight or hotel search.
 	 * A wrong or missing key returns 401 before anything reaches the backend.
 	 *
-	 * It carries `X-FP-Client` for the same reason the four operations do: the
+	 * It carries `X-FP-Client` for the same reason the five operations do: the
 	 * front forwards `/v1/verify` upstream as a POST and attributes it, so a
 	 * "Test connection" click without the header is counted as an anonymous
 	 * marketplace call rather than as an n8n user setting the node up.
