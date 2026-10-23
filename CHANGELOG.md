@@ -3,6 +3,42 @@
 Versions before 0.2.3 were recorded only in GitHub releases and commit
 messages; they are summarised here from those.
 
+## 0.3.0 — 2026-10-23
+
+### Added
+
+- **Airbnb resource, Search Stays operation.** Searches live Airbnb listings at
+  a destination through `POST https://api.flightpowers.com/v1/hotels/search`
+  with `provider: "airbnb"` in the body, billed to the caller's
+  [Airbnb Live API](https://rapidapi.com/mtnrabi/api/airbnb-live-api)
+  subscription on RapidAPI (BASIC is free, 100 searches a month). Required:
+  Destination, Check-in Date, Check-out Date. Options: Adults, Children,
+  Infants, Pets, Currency, Min / Max Price per Night, Min Bedrooms, Min Beds,
+  Min Bathrooms, Room Types (Airbnb's four), Min Rating (0 to 5), Sort (price
+  low to high, price high to low, rating high to low). A separate resource
+  rather than a switch on Hotel, because the two share almost no filters and
+  the API refuses Booking's `filters` on an Airbnb search.
+- The three required Airbnb fields carry the same `preSend` check as the flight
+  fields since 0.2.4: blank, or a date that is not a real `YYYY-MM-DD` day,
+  stops the node before any request is sent or billed. `requireField` takes an
+  optional hint so the message names the Airbnb fields.
+- `scripts/check-required.mjs` covers the Airbnb fields, checks the Airbnb
+  operation sends `provider: airbnb` to `/v1/hotels/search`, and pins the Room
+  Types and Sort values to the API's own vocabularies.
+
+### Fixed
+
+- The hotel date placeholders still said `e.g. 2026-06-15` / `2026-06-19`, now
+  past dates; they read `2027-06-15` / `2027-06-18`, and the future-year check
+  covers the hotel and Airbnb placeholders too.
+
+### Changed
+
+- `X-FP-Client: n8n-node/0.3.0`.
+- The credential and README say which RapidAPI listing each resource needs,
+  and that "Test connection" checks only the flights and Booking listings, so
+  an Airbnb-only key fails that test while its searches work.
+
 ## 0.2.4 — 2026-09-28
 
 ### Fixed

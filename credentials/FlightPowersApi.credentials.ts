@@ -39,7 +39,7 @@ export class FlightPowersApi implements ICredentialType {
 			default: '',
 			required: true,
 			description:
-				'Your FlightPowers API key, sent as the x-api-key header. If you subscribed through RapidAPI, use that RapidAPI key here; the same key covers both the flight and the hotel operations.',
+				'Your FlightPowers API key, sent as the x-api-key header. If you subscribed through RapidAPI, use that RapidAPI key here; one key covers every operation, as long as it is subscribed to the listing behind it: Google Flights Live API for flights, Booking Live API for hotels, Airbnb Live API for Airbnb stays (BASIC is free, 100 searches a month).',
 		},
 	];
 
@@ -57,10 +57,15 @@ export class FlightPowersApi implements ICredentialType {
 	 * reports remaining quota without running a billable flight or hotel search.
 	 * A wrong or missing key returns 401 before anything reaches the backend.
 	 *
-	 * It carries `X-FP-Client` for the same reason the four operations do: the
+	 * It carries `X-FP-Client` for the same reason the five operations do: the
 	 * front forwards `/v1/verify` upstream as a POST and attributes it, so a
 	 * "Test connection" click without the header is counted as an anonymous
 	 * marketplace call rather than as an n8n user setting the node up.
+	 *
+	 * Known gap: `/v1/verify` asks the flights and Booking listings only, so a
+	 * key subscribed to the Airbnb Live API and nothing else fails this test
+	 * while its Airbnb searches work. The README says so; the fix belongs in
+	 * the front's verify handler, not here.
 	 */
 	test: ICredentialTestRequest = {
 		request: {
