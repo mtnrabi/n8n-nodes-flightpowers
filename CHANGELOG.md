@@ -3,6 +3,17 @@
 Versions before 0.2.3 were recorded only in GitHub releases and commit
 messages; they are summarised here from those.
 
+## 0.3.1 — 2026-11-08
+
+### Changed
+
+- README: the flights free pack is 50 searches a month, not 10 (a test running
+  to 2026-11-22); Booking's stays at 10. Docs only; the node's behaviour is
+  unchanged.
+- `X-FP-Client: n8n-node/0.3.1` (follows the version, as `npm test` requires).
+- Published from GitHub Actions through npm trusted publishing (OIDC, no npm
+  token), with a provenance attestation.
+
 ## 0.3.0 — 2026-10-23
 
 ### Added
