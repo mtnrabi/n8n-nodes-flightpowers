@@ -7,9 +7,10 @@ on:
 
 permissions:
   contents: read
-  # Required for npm provenance / trusted publishing. No npm token is stored
-  # in this repository - register this workflow as a Trusted Publisher in the
-  # npm package settings instead.
+  # Required for npm trusted publishing (OIDC). No npm token is used here:
+  # npmjs.com has a trusted publisher for n8n-nodes-flightpowers set to
+  # repository n8n-nodes-flightpowers, workflow publish.yml, no environment.
+  # Renaming this file or adding an environment breaks that match (ENEEDAUTH).
   id-token: write
 
 jobs:
@@ -22,8 +23,30 @@ jobs:
         with:
           # 22, not 20: n8n-workflow pulls in isolated-vm, which declares
           # engines.node >= 22 and fails to compile under node-gyp on 20.
+          # Trusted publishing also needs Node >= 22.14.0 (checked below).
           node-version: 22
           registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm CLI >= 11.5.1; Node 22 ships npm 10.x.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Check Node and npm versions
+        run: |
+          node -e '
+            const [nm, nn] = process.versions.node.split(".").map(Number);
+            if (nm < 22 || (nm === 22 && nn < 14)) {
+              console.error(`::error::Node ${process.versions.node} < 22.14.0, trusted publishing needs 22.14.0+`);
+              process.exit(1);
+            }'
+          NPM_V=$(npm --version)
+          echo "node $(node --version), npm $NPM_V"
+          node -e '
+            const [a, b, c] = process.argv[1].split(".").map(Number);
+            if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) {
+              console.error(`::error::npm ${process.argv[1]} < 11.5.1, trusted publishing needs 11.5.1+`);
+              process.exit(1);
+            }' "$NPM_V"
 
       - name: Install dependencies
         run: npm ci
@@ -41,10 +64,7 @@ jobs:
       - name: Check attribution
         run: node scripts/check-attribution.mjs
 
+      # Auth is the OIDC exchange with npmjs.com (trusted publisher), no token.
+      # prepublishOnly still runs build + lint + check-attribution + check-required.
       - name: Publish
         run: npm publish --provenance --access public
-        env:
-          # Provenance needs `id-token: write` above AND an auth token here.
-          # Swap this for npm Trusted Publishing when you have a moment -- it
-          # removes the stored token entirely.
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
