@@ -11,9 +11,9 @@ credential, one node ([API docs](https://api.flightpowers.com/docs)).
 **Where to get a key:** subscribe to the
 [Google Flights Live API](https://rapidapi.com/mtnrabi/api/google-flights-live-api), the
 [Booking Live API](https://rapidapi.com/mtnrabi/api/booking-live-api) and/or the
-[Airbnb Live API](https://rapidapi.com/mtnrabi/api/airbnb-live-api) on RapidAPI (flights and
-Booking: a free pack of 10 searches a month, then PRO is $10 for 2,500 flight searches or 2,000
-hotel searches; Airbnb: BASIC is free for 100 searches a month, then PRO is $10 for 10,000) and
+[Airbnb Live API](https://rapidapi.com/mtnrabi/api/airbnb-live-api) on RapidAPI (flights: a free
+pack of 50 searches a month; Booking: 10 a month; then PRO is $10 for 2,500 flight searches or
+2,000 hotel searches; Airbnb: BASIC is free for 100 searches a month, then PRO is $10 for 10,000) and
 paste the key into the FlightPowers credential.
 
 One node, three resources, five operations: one-way flight search, round-trip
